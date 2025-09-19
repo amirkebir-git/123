@@ -54,7 +54,8 @@ class AnimatedTextApp(App):
         grid = GridLayout(cols=1, size_hint_y=None, padding=10)
         grid.bind(minimum_height=grid.setter('height'))
 
-        label = Label(text=text, size_hint_y=None, font_size=20, color=(1,1,1,1), text_size=(self.root_layout.width-40, None))
+        label = Label(text=text, size_hint_y=None, font_size=20, color=(1,1,1,1),
+                      text_size=(self.root_layout.width-40, None))
         label.bind(texture_size=label.setter('size'))
         grid.add_widget(label)
 
