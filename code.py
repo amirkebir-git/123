@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter.scrolledtext import ScrolledText
 import requests
 import threading
 import time
@@ -18,18 +18,15 @@ def play_music(url):
 def show_internal_text(root, url):
     response = requests.get(url)
     text = response.text
-    text_widget = scrolledtext.ScrolledText(root, wrap=tk.WORD, bg="black", fg="white", font=("Arial", 14))
+    text_widget = ScrolledText(root, wrap=tk.WORD, bg="black", fg="white", font=("Arial", 14))
     text_widget.pack(expand=True, fill=tk.BOTH)
     text_widget.insert(tk.END, text)
     text_widget.configure(state='disabled')
 
 # انیمیشن متن اولیه
 def animate_text(label, root, internal_text_url, music_url):
-    # پخش موسیقی
     threading.Thread(target=play_music, args=(music_url,), daemon=True).start()
-    # تاخیر 2 ثانیه
     time.sleep(2)
-    # ساده ترین حالت پیچش: تغییر اندازه و ناپدید شدن
     for i in range(20, 0, -1):
         label.config(font=("Arial", i*3))
         time.sleep(0.05)
