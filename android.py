@@ -9,7 +9,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock, mainthread
 from kivy.core.audio import SoundLoader
 
-INTERNAL_TEXT_URL = "https://raw.githubusercontent.com/amirkebir-git/123/refs/heads/main/te.txt"
+INTERNAL_TEXT_URL = "https://raw.githubusercontent.com/amirkebir-git/123/refs/heads/main/androidtext.txt"
 MUSIC_URL = "https://github.com/amirkebir-git/123/raw/refs/heads/main/music%201.mp3"
 
 class AnimatedTextApp(App):
