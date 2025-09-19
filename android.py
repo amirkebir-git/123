@@ -5,9 +5,13 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock, mainthread
 from kivy.core.audio import SoundLoader
+from kivy.core.text import LabelBase
 import threading
 import requests
 import time
+
+# ثبت فونت فارسی
+LabelBase.register(name="Vazir", fn_regular="Vazir.ttf")
 
 INTERNAL_TEXT_URL = "https://raw.githubusercontent.com/amirkebir-git/123/refs/heads/main/te.txt"
 MUSIC_URL = "https://github.com/amirkebir-git/123/raw/refs/heads/main/music%201.mp3"
@@ -15,7 +19,7 @@ MUSIC_URL = "https://github.com/amirkebir-git/123/raw/refs/heads/main/music%201.
 class AnimatedTextApp(App):
     def build(self):
         self.root_layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
-        self.text_label = Label(text="تیم نویسنده نیکل سرور", font_size=60, color=(1,0,0,1))
+        self.text_label = Label(text="تیم نویسنده نیکل سرور", font_size=60, color=(1,0,0,1), font_name="Vazir")
         self.root_layout.add_widget(self.text_label)
 
         # شروع انیمیشن در Thread
@@ -51,10 +55,11 @@ class AnimatedTextApp(App):
             text = "خطا در دریافت متن از اینترنت!"
 
         scroll = ScrollView()
-        grid = GridLayout(cols=1, size_hint_y=None)
+        grid = GridLayout(cols=1, size_hint_y=None, padding=10)
         grid.bind(minimum_height=grid.setter('height'))
 
-        label = Label(text=text, size_hint_y=None, font_size=20, color=(1,1,1,1), text_size=(self.root_layout.width-40, None))
+        label = Label(text=text, size_hint_y=None, font_size=20, font_name="Vazir",
+                      color=(1,1,1,1), text_size=(self.root_layout.width-40, None))
         label.bind(texture_size=label.setter('size'))
         grid.add_widget(label)
 
