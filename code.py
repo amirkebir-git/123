@@ -3,7 +3,6 @@ import requests
 import threading
 import time
 from tkinter import messagebox
-from datetime import datetime
 
 def check_connection():
     try:
@@ -27,12 +26,14 @@ def run_process():
     time.sleep(2)
     if not check_connection():
         update_status("خطا در اتصال به اینترنت")
+        messagebox.showerror("خطا", "اتصال به اینترنت برقرار نشد ❌")
         return
 
     update_status("در حال متصل شدن به سرور ...")
     time.sleep(2)
     if not check_server():
         update_status("خطا در اتصال به سرور")
+        messagebox.showerror("خطا", "ارتباط با سرور Nickel برقرار نشد ❌")
         return
 
     update_status("در حال اجرا ...")
