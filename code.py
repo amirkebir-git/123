@@ -1,53 +1,77 @@
 import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
 import requests
 import threading
 import time
-import pygame
-from io import BytesIO
+from tkinter import messagebox
+from datetime import datetime
 
-# پخش موسیقی
-def play_music(url):
-    pygame.mixer.init()
-    response = requests.get(url)
-    music_data = BytesIO(response.content)
-    pygame.mixer.music.load(music_data)
-    pygame.mixer.music.play()
+def check_connection():
+    try:
+        requests.get("https://www.google.com", timeout=5)
+        return True
+    except:
+        return False
 
-# نمایش متن داخلی
-def show_internal_text(root, url):
-    response = requests.get(url)
-    text = response.text
-    text_widget = ScrolledText(root, wrap=tk.WORD, bg="black", fg="white", font=("Arial", 14))
-    text_widget.pack(expand=True, fill=tk.BOTH)
-    text_widget.insert(tk.END, text)
-    text_widget.configure(state='disabled')
+def check_server():
+    try:
+        requests.get("https://nickelserver.sbs/", timeout=5)
+        return True
+    except:
+        return False
 
-# انیمیشن متن اولیه
-def animate_text(label, root, internal_text_url, music_url):
-    threading.Thread(target=play_music, args=(music_url,), daemon=True).start()
+def start_check():
+    threading.Thread(target=run_process).start()
+
+def run_process():
+    update_status("در حال بررسی اینترنت ...")
     time.sleep(2)
-    for i in range(20, 0, -1):
-        label.config(font=("Arial", i*3))
-        time.sleep(0.05)
-    label.destroy()
-    show_internal_text(root, internal_text_url)
+    if not check_connection():
+        update_status("خطا در اتصال به اینترنت")
+        return
 
-def main():
-    root = tk.Tk()
-    root.title("Nickel Server")
-    root.geometry("800x600")
-    root.configure(bg="black")
+    update_status("در حال متصل شدن به سرور ...")
+    time.sleep(2)
+    if not check_server():
+        update_status("خطا در اتصال به سرور")
+        return
 
-    text_label = tk.Label(root, text="تیم نویسنده نیکل سرور", fg="red", bg="black", font=("Arial", 60))
-    text_label.pack(expand=True)
+    update_status("در حال اجرا ...")
+    time.sleep(5)
+    show_final_message()
 
-    internal_text_url = "https://raw.githubusercontent.com/amirkebir-git/123/refs/heads/main/te.txt"
-    music_url = "https://github.com/amirkebir-git/123/raw/refs/heads/main/music%201.mp3"
+def update_status(msg):
+    status_label.config(text=msg)
 
-    threading.Thread(target=animate_text, args=(text_label, root, internal_text_url, music_url), daemon=True).start()
+def show_final_message():
+    for widget in root.winfo_children():
+        widget.destroy()
 
-    root.mainloop()
+    text = """باسلام
+نیکل سرور در حال آپدیت میباشد
 
-if __name__ == "__main__":
-    main()
+شنبه ۲۹ شهریور ۱۴۰۴ شمسی
+20 September 2025 میلادی
+۲۷ ربیع الاول ۱۴۴۷ قمری
+"""
+    final_label = tk.Label(
+        root,
+        text=text,
+        font=("B Titr", 16, "bold"),
+        justify="center"
+    )
+    final_label.pack(pady=50)
+
+    exit_button = tk.Button(root, text="خروج", font=("B Titr", 14, "bold"), command=root.destroy)
+    exit_button.pack(pady=20)
+
+# ساخت پنجره اصلی
+root = tk.Tk()
+root.title("Nickel Server")
+root.geometry("800x500")
+
+status_label = tk.Label(root, text="...", font=("B Titr", 14))
+status_label.pack(pady=200)
+
+start_check()
+
+root.mainloop()
