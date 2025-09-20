@@ -82,22 +82,23 @@ def show_final_message():
     final_label = tk.Label(
         root,
         text=text,
-        font=("B Titr", 24, "bold"),
+        font=("B Titr", 36, "bold"),
         justify="center",
-        fg="darkred"
+        fg="darkred",
+        bg="white"
     )
     final_label.pack(expand=True)
 
-    exit_button = tk.Button(root, text="خروج", font=("B Titr", 18, "bold"), command=root.destroy, bg="red", fg="white")
-    exit_button.pack(pady=30)
+    exit_button = tk.Button(root, text="خروج", font=("B Titr", 24, "bold"), command=root.destroy, bg="red", fg="white")
+    exit_button.pack(pady=50)
 
 # --- ساخت پنجره اصلی ---
 root = tk.Tk()
 root.title("Nickel Server")
-root.state("zoomed")  # فول‌اسکرین در ویندوز
 root.configure(bg="white")
+root.attributes("-fullscreen", True)  # فول‌اسکرین واقعی
 
-status_label = tk.Label(root, text="...", font=("B Titr", 20, "bold"), bg="white")
+status_label = tk.Label(root, text="...", font=("B Titr", 30, "bold"), bg="white")
 status_label.pack(pady=50)
 
 canvas = tk.Canvas(root, width=200, height=200, bg="white", highlightthickness=0)
